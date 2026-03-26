@@ -243,7 +243,7 @@ textarea.form-control{resize:vertical;min-height:68px;line-height:1.5}
   <div style="flex:1">
     <div class="setup-title">Configurer Google Search (optionnel — pour les résultats web en direct)</div>
     <div class="setup-text">
-      Sans clé : la base locale (~300 entreprises africaines) fonctionne parfaitement.<br>
+      Sans clé : la base locale (+2000 PME ivoiriennes) fonctionne parfaitement.<br>
       Avec clé Google : enrichissement web en temps réel, <strong>100 requêtes/jour gratuites</strong>, sans carte bancaire.<br>
       <strong>Comment obtenir les clés gratuites :</strong>
       1. Va sur <a href="https://developers.google.com/custom-search/v1/introduction" target="_blank">Google Custom Search API</a> → "Get a key" (gratuit)<br>
@@ -262,7 +262,7 @@ textarea.form-control{resize:vertical;min-height:68px;line-height:1.5}
 <div class="hero">
   <div class="hero-eyebrow"><span class="hero-dot"></span>Base locale + Web en temps réel</div>
   <h1>Trouve tes cibles,<br><em>ferme les deals</em></h1>
-  <p>Base de données de ~300 entreprises africaines + enrichissement Google Search gratuit.</p>
+  <p>Base de données de +2000 PME ivoiriennes + enrichissement Google Search gratuit.</p>
 </div>
 
 <!-- PANEL -->
@@ -277,7 +277,7 @@ textarea.form-control{resize:vertical;min-height:68px;line-height:1.5}
       </div>
       <div class="stab" onclick="setSource('local',this)">
         <div class="stab-title">💾 Base locale</div>
-        <div class="stab-sub">~300 entreprises, offline</div>
+        <div class="stab-sub">+2000 PME CI, offline</div>
       </div>
       <div class="stab" onclick="setSource('web',this)">
         <div class="stab-title">🌐 Web Google</div>
@@ -289,18 +289,22 @@ textarea.form-control{resize:vertical;min-height:68px;line-height:1.5}
     <div style="margin-bottom:18px">
       <label class="flabel" style="display:block;margin-bottom:9px">Secteurs populaires</label>
       <div class="tags-wrap">
-        <span class="tag" onclick="pickTag(this,'finance')">🏦 Finance</span>
-        <span class="tag" onclick="pickTag(this,'distribution')">🛒 Distribution</span>
-        <span class="tag" onclick="pickTag(this,'telecom')">📡 Télécom</span>
-        <span class="tag" onclick="pickTag(this,'logistique')">🚚 Logistique</span>
-        <span class="tag" onclick="pickTag(this,'agroalimentaire')">🌾 Agro</span>
-        <span class="tag" onclick="pickTag(this,'sante')">🏥 Santé</span>
+        <span class="tag" onclick="pickTag(this,'lavage')">🚗 Lavage Auto</span>
+        <span class="tag" onclick="pickTag(this,'pressing')">👔 Pressing</span>
+        <span class="tag" onclick="pickTag(this,'boutique')">🛒 Boutique</span>
+        <span class="tag" onclick="pickTag(this,'restauration')">🍽️ Maquis / Resto</span>
         <span class="tag" onclick="pickTag(this,'btp')">🏗️ BTP</span>
+        <span class="tag" onclick="pickTag(this,'transport')">🚕 Transport / Taxi</span>
+        <span class="tag" onclick="pickTag(this,'coiffure')">💇 Coiffure / Beauté</span>
+        <span class="tag" onclick="pickTag(this,'sante')">🏥 Santé / Pharmacie</span>
         <span class="tag" onclick="pickTag(this,'education')">🎓 Éducation</span>
-        <span class="tag" onclick="pickTag(this,'hotellerie')">🏨 Hôtellerie</span>
-        <span class="tag" onclick="pickTag(this,'assurance')">🛡️ Assurance</span>
-        <span class="tag" onclick="pickTag(this,'energie')">⚡ Énergie</span>
-        <span class="tag" onclick="pickTag(this,'industrie')">🏭 Industrie</span>
+        <span class="tag" onclick="pickTag(this,'immobilier')">🏠 Immobilier</span>
+        <span class="tag" onclick="pickTag(this,'informatique')">💻 Informatique</span>
+        <span class="tag" onclick="pickTag(this,'garage')">🔧 Garage / Méca</span>
+        <span class="tag" onclick="pickTag(this,'mode')">👗 Mode / Couture</span>
+        <span class="tag" onclick="pickTag(this,'evenementiel')">🎉 Événementiel</span>
+        <span class="tag" onclick="pickTag(this,'imprimerie')">🖨️ Imprimerie</span>
+        <span class="tag" onclick="pickTag(this,'agriculture')">🌾 Agriculture</span>
       </div>
     </div>
 
@@ -28848,11 +28852,16 @@ async function startSearch() {
 
 function searchLocal(sector, country, size, max) {
   let results = DB.filter(c => {
+    const sectorStr = (c.sector || '').toLowerCase();
+    const sectorKey = (c.sector_key || '').toLowerCase();
+    const nameStr = (c.name || '').toLowerCase();
+    const painStr = (c.pain || '').toLowerCase();
     const sectorMatch = sector === '' || 
-      c.sector.includes(sector) || 
-      c.name.toLowerCase().includes(sector) ||
-      c.desc.toLowerCase().includes(sector) ||
-      sectorAliases(sector).some(alias => c.sector.includes(alias));
+      sectorStr.includes(sector) || 
+      sectorKey.includes(sector) ||
+      nameStr.includes(sector) ||
+      painStr.includes(sector) ||
+      sectorAliases(sector).some(alias => sectorStr.includes(alias) || sectorKey.includes(alias));
     const countryMatch = country === 'tous' || c.country === country || 
       (country === 'afrique_ouest' && ['cote_divoire','senegal','mali','burkina','ghana'].includes(c.country));
     const sizeMatch = size === 'tous' || c.size === size;
@@ -28864,19 +28873,23 @@ function searchLocal(sector, country, size, max) {
 
 function sectorAliases(s) {
   const map = {
-    'finance': ['banque','bank','financ','credit','microfinance','assurance'],
-    'banque': ['finance','bank','financ'],
-    'telecom': ['mobile','telephone','operateur','telco'],
-    'distribution': ['retail','commerce','supermarche','vente'],
-    'logistique': ['transport','livraison','fret','shipping'],
-    'agroalimentaire': ['agro','alimentaire','agriculture','food'],
-    'sante': ['medical','hospital','pharmacie','health','clinique'],
-    'btp': ['construction','batiment','immobilier','travaux'],
-    'energie': ['electricite','petrole','gaz','oil','power'],
-    'assurance': ['insurance','mutuelle'],
-    'hotellerie': ['hotel','tourisme','restaurant'],
-    'education': ['formation','ecole','universite','school'],
-    'industrie': ['manufacturier','fabrique','usine'],
+    'lavage': ['wash','nettoyage','auto clean','car wash','moto'],
+    'pressing': ['blanchisserie','linge','repassage'],
+    'boutique': ['commerce','epicerie','alimentation','shop','minimart','magasin'],
+    'btp': ['construction','batiment','maconnerie','artisan','plomberie','electricite','menuiserie','renovation','genie civil'],
+    'restauration': ['maquis','restaurant','brochette','traiteur','food','repas'],
+    'transport': ['taxi','vtc','navette','chauffeur','livraison'],
+    'sante': ['medical','hospital','pharmacie','health','clinique','cabinet','medecin'],
+    'coiffure': ['salon','beaute','esthetique','beauty','coif'],
+    'education': ['formation','ecole','universite','school','garderie','creche','cours'],
+    'immobilier': ['immo','habitat','agence','foncier','location','maison'],
+    'informatique': ['tech','cyber','reparation','phone','mobile','info'],
+    'evenementiel': ['events','fete','organisation','location salle'],
+    'mode': ['couture','atelier','style','vetement','pret-a-porter','wax'],
+    'agriculture': ['elevage','maraichage','ferme','agri'],
+    'imprimerie': ['impression','print','reprographie','communication visuelle'],
+    'garage': ['mecanique','auto service','reparation auto'],
+    'pharmacie_para': ['parapharmacie','cosmetique','beaute naturelle'],
   };
   return map[s] || [];
 }
@@ -28944,20 +28957,20 @@ function renderResults(local, web, sector, country) {
       <div class="card-head">
         <div>
           <div class="card-name">${c.name}</div>
-          <div class="card-role">Contact cible : ${c.contact}</div>
+          <div class="card-role">${c.responsable || c.contact || ''}</div>
         </div>
         <div class="card-badges">
           <span class="badge badge-sector">${c.sector}</span>
-          <span class="badge badge-country">${countryLabel(c.country)}</span>
+          <span class="badge badge-country">${c.ville ? c.ville : countryLabel(c.country)}</span>
         </div>
       </div>
-      <div class="card-desc">${c.desc}</div>
+      ${c.service_propose ? `<div style="font-size:12px;color:var(--accent);margin-bottom:8px">💡 Service suggéré : <strong>${c.service_propose}</strong></div>` : ''}
       <div class="card-pain">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span><strong>Opportunité :</strong> ${c.pain}</span>
+        <span><strong>Problème digital :</strong> ${c.pain || c.desc || ''}</span>
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        <span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Niveau digital</span>
+        <span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Urgence digitale</span>
         <span class="stars">${stars(c.score)}</span>
         <span style="font-size:11px;color:var(--text3)">${c.score||2}/5</span>
       </div>
@@ -29083,7 +29096,7 @@ function renderCRM() {
       <td><strong style="font-size:13px">${c.name}</strong><br><span style="font-size:11px;color:var(--text3)">${c.added||''}</span></td>
       <td style="color:var(--text2)">${c.sector||'—'}</td>
       <td style="color:var(--text2)">${countryLabel(c.country)||'—'}</td>
-      <td style="color:var(--text2)">${c.contact||'—'}</td>
+      <td style="color:var(--text2)">${c.responsable||c.contact||'—'}</td>
       <td><a href="mailto:${c.email||''}" style="color:var(--blue);text-decoration:none;font-size:12px">${c.email||'—'}</a></td>
       <td style="color:var(--text2);font-size:12px">${c.phone||'—'}</td>
       <td>
