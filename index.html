@@ -39562,38 +39562,12 @@ function openWhatsAppModal(c) {
 function generateWhatsApp(c) {
   const prenom = (c.proprietaire || c.responsable || '').split(' ')[0] || 'Bonjour';
   const templates = [
-    `Bonjour ${prenom} 👋
+    `Bonjour ${prenom} 
 
-  Je me permets de vous contacter au nom de *Afrik Novatech*, une startup ivoirienne spécialisée dans les solutions digitales pour entreprises.
-
-  Nous aidons aujourd’hui plusieurs activités à gagner du temps, mieux gérer leur business et surtout augmenter leurs revenus 🚀
-
-  👉 Nous avons créé *Olave*, une application moderne spécialement conçue pour les propriétaires de lavage auto en Côte d’Ivoire.
-
-  Avec Olave, vous pouvez :
-  ✅ Suivre chaque véhicule lavé en temps réel  
-  📊 Voir vos recettes journalières automatiquement  
-  👥 Gérer votre équipe facilement  
-  📷 Surveiller votre lavage à distance  
-  🧾 Digitaliser votre caisse et vos clients  
-
-  Bref… fini les pertes, les oublis et les doutes 😄
-
-  C’est exactement la solution idéale pour : _${c.pain}_
-
-  👉 Découvrez ici : https://olave-ci.vercel.app/
-
-  On offre actuellement une *démo gratuite* pour tester l’application.
-
-  Ça vous dirait de voir comment ça peut améliorer *${c.name}* ? 🙏`,
-
-      `Bonjour ${prenom} 😊
-
-  Je vous écris rapidement — promis je ne prends pas beaucoup de votre temps 😄
 
   Je représente *Afrik Novatech*, une startup qui développe des outils digitaux adaptés au marché ivoirien.
-
-  Nous avons conçu *Olave*, une solution complète pour gérer un lavage automobile sans stress :
+  site web : https://www.afriknovatech.com/
+  Nous avons conçu *Olave*, une application moderne spécialement conçue pour les propriétaires de lavage pour gérer leur lavage automobile sans stress :
 
   🚗 Suivi des lavages en temps réel  
   💰 Gestion automatique des recettes  
@@ -39602,16 +39576,16 @@ function generateWhatsApp(c) {
   ✅Suivi en temps réel de chaque véhicule lavé
   📊 Rapport journalier automatique des recettes
   📷 Surveillance caméra à distance
-  🧾 Caisse digitale avec tickets clients
+  🧾 Caisse digitale
 
 
-  En gros… votre lavage travaille, même quand vous n’êtes pas sur place 😉
+  En gros… votre lavage travaille, même quand vous n’êtes pas sur place
 
   👉 Voici un aperçu : https://olave-ci.vercel.app/
 
-  Nous proposons en ce moment un *test gratuit* pour les propriétaires intéressés.
+  Nous proposons en ce moment un **test gratuit** pour les propriétaires intéressés.
 
-  Est-ce que ça vous intéresserait d’essayer sur *${c.name}* ? 👍`,
+  Est-ce que ça vous intéresserait d’essayer et voir comment ça peut améliorer *${c.name}* ?`,
     ];
     return templates[Math.floor(Math.random() * templates.length)];
   }
