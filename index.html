@@ -39564,32 +39564,57 @@ function generateWhatsApp(c) {
   const templates = [
     `Bonjour ${prenom} 👋
 
-Je m'appelle [Votre prénom], je développe une application de gestion pour les lavages auto en Côte d'Ivoire.
+  Je me permets de vous contacter au nom de *Afrik Novatech*, une startup ivoirienne spécialisée dans les solutions digitales pour entreprises.
 
-J'ai vu que vous gérez *${c.name}* — notre app permet :
-✅ Suivi en temps réel de chaque véhicule lavé
-📊 Rapport journalier automatique des recettes
-📷 Surveillance caméra à distance
-🧾 Caisse digitale avec tickets clients
+  Nous aidons aujourd’hui plusieurs activités à gagner du temps, mieux gérer leur business et surtout augmenter leurs revenus 🚀
 
-Exactement ce qu'il faut pour : _${c.pain}_
+  👉 Nous avons créé *Olave*, une application moderne spécialement conçue pour les propriétaires de lavage auto en Côte d’Ivoire.
 
-Vous seriez intéressé par une démo gratuite ? 🙏`,
+  Avec Olave, vous pouvez :
+  ✅ Suivre chaque véhicule lavé en temps réel  
+  📊 Voir vos recettes journalières automatiquement  
+  👥 Gérer votre équipe facilement  
+  📷 Surveiller votre lavage à distance  
+  🧾 Digitaliser votre caisse et vos clients  
 
-    `Bonjour ${prenom} !
+  Bref… fini les pertes, les oublis et les doutes 😄
 
-Je vous contacte car *${c.name}* correspond exactement au profil de nos clients.
+  C’est exactement la solution idéale pour : _${c.pain}_
 
-Notre solution règle un problème que beaucoup de patrons de lavage connaissent : _${c.pain}_
+  👉 Découvrez ici : https://olave-ci.vercel.app/
 
-👉 App de gestion + caméras de surveillance
-👉 Accès depuis votre téléphone où que vous soyez
-👉 Version test gratuite disponible maintenant
+  On offre actuellement une *démo gratuite* pour tester l’application.
 
-Je peux vous faire une démo rapide de 10 min ? 📱`,
-  ];
-  return templates[Math.floor(Math.random() * templates.length)];
-}
+  Ça vous dirait de voir comment ça peut améliorer *${c.name}* ? 🙏`,
+
+      `Bonjour ${prenom} 😊
+
+  Je vous écris rapidement — promis je ne prends pas beaucoup de votre temps 😄
+
+  Je représente *Afrik Novatech*, une startup qui développe des outils digitaux adaptés au marché ivoirien.
+
+  Nous avons conçu *Olave*, une solution complète pour gérer un lavage automobile sans stress :
+
+  🚗 Suivi des lavages en temps réel  
+  💰 Gestion automatique des recettes  
+  👨‍🔧 Contrôle des employés  
+  📱 Accès depuis votre téléphone, où que vous soyez  
+  ✅Suivi en temps réel de chaque véhicule lavé
+  📊 Rapport journalier automatique des recettes
+  📷 Surveillance caméra à distance
+  🧾 Caisse digitale avec tickets clients
+
+
+  En gros… votre lavage travaille, même quand vous n’êtes pas sur place 😉
+
+  👉 Voici un aperçu : https://olave-ci.vercel.app/
+
+  Nous proposons en ce moment un *test gratuit* pour les propriétaires intéressés.
+
+  Est-ce que ça vous intéresserait d’essayer sur *${c.name}* ? 👍`,
+    ];
+    return templates[Math.floor(Math.random() * templates.length)];
+  }
 
 function generateEmail(c) {
   const templates = [
